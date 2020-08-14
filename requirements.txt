@@ -1,0 +1,9 @@
+flask
+flask_restful
+pandas
+h5py
+requests
+numpy
+matplotlib
+flask_cors
+tensorflow
