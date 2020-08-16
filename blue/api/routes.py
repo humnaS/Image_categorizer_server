@@ -266,56 +266,68 @@ class Get_Projects_Without_Data(Resource):
          
             #cat_count = 0
             for proj in subfolders_projects:
+                flag = False
                 proj_categories = list()
                 cat_list = list()
                 last_name = proj.split("/")
                 last_name = last_name[-1]
+
+                extensions_model = [".h5"]
+                filelist_model = [ f for f in os.listdir(proj) if os.path.splitext(f)[1] in extensions_model]
+
+                print(filelist_model)
+
+                if len(filelist_model) <= 0:
+                    flag = True
        
-                projects_categories = [ f.path for f in os.scandir(proj) if f.is_dir() ]
-                
-                for cate in projects_categories:
-                    dict1 = dict()
-                    cat_last_name = cate.split("/")
-                    cat_last_name = cat_last_name[-1]
-                    print(cat_last_name)
-                    cat_list.append(cat_last_name)
-                   
-                    extensions = [".jpg", ".jpeg", ".png"]
-                    filelist = [ f for f in os.listdir(cate) if os.path.splitext(f)[1] in extensions]
-
-                    print(filelist)
-
-                    if len(filelist) <= 0:
-
+                    projects_categories = [ f.path for f in os.scandir(proj) if f.is_dir() ]
+                    
+                    for cate in projects_categories:
+                        dict1 = dict()
                         
-                        dict1["category_name"] = cat_last_name
-                        dict1["status"] = False
-                     
-                        #cat_count += 1
+                        cat_last_name = cate.split("/")
+                        cat_last_name = cat_last_name[-1]
+                        print(cat_last_name)
+                        cat_list.append(cat_last_name)
 
-                        # if cat_count > 1:
-                        #     complete_list[last_name] = cat_list
-                        #     print("1st",complete_list)
+                    
+                        extensions = [".jpg", ".jpeg", ".png"]
+                        filelist = [ f for f in os.listdir(cate) if os.path.splitext(f)[1] in extensions]
+
+                        print(filelist)
+
+                        if len(filelist) <= 0:
+
                             
-                        # elif cat_count == 1 :
-                        #     print("here")
-                        #     print(cat_last_name)
-                        #     print(complete_list)
-                        #     complete_list[last_name] = cat_last_name
-                        #     print("2nd",complete_list)
-                    elif len(filelist) > 0:
-
-                        #dict1 = dict()
-                        dict1["category_name"] = cat_last_name
-                        dict1["status"] = True
-
-                    proj_categories.append(dict1)
-                    print(proj_categories)
-
-                temp_dict = {"project_name":last_name,"categories":proj_categories}
-                projectss.append(temp_dict)
-                #[{project_name:"example project 1", categories:[{name:"cat",status:"trained"},{name:"dog",status:"trained"}]}
+                            dict1["category_name"] = cat_last_name
+                            dict1["status"] = False
                         
+                            #cat_count += 1
+
+                            # if cat_count > 1:
+                            #     complete_list[last_name] = cat_list
+                            #     print("1st",complete_list)
+                                
+                            # elif cat_count == 1 :
+                            #     print("here")
+                            #     print(cat_last_name)
+                            #     print(complete_list)
+                            #     complete_list[last_name] = cat_last_name
+                            #     print("2nd",complete_list)
+                        elif len(filelist) > 0:
+
+                            #dict1 = dict()
+                            dict1["category_name"] = cat_last_name
+                            dict1["status"] = True
+
+                        proj_categories.append(dict1)
+                        print(proj_categories)
+
+                    if flag == True:
+                        temp_dict = {"project_name":last_name,"categories":proj_categories}
+                        projectss.append(temp_dict)
+                    #[{project_name:"example project 1", categories:[{name:"cat",status:"trained"},{name:"dog",status:"trained"}]}
+                            
 
             #print("3rd",complete_list)
             #retJson = {"status":200,"missing_data_projects":complete_list,"NumberOfMissingCategories":cat_count}
