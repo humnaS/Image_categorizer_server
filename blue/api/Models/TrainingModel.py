@@ -181,7 +181,7 @@ def Model_Train(DIR_NAME,categories):
 
     temp = history.history
 
-    retJson = {"status":301,"msg":"Model trained successfully","history": str(temp)}
+    retJson = {"status":200,"msg":"Model trained successfully","history": str(temp)}
     tf.keras.backend.clear_session()
     return retJson
 
